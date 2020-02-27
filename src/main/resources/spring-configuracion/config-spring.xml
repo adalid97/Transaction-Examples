@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:property-placeholder
+		location="classpath:dual.properties" ignore-unresolvable="true"
+		order="1" />
+
+	<tx:annotation-driven
+		transaction-manager="dualTransactionManager" />
+
+	<bean id="dualDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>${dual.driver.class.name}</value>
+		</property>
+		<property name="url">
+			<value>${dual.url}</value>
+		</property>
+		<property name="username">
+			<value>${dual.usuario}</value>
+		</property>
+		<property name="password">
+			<value>${dual.password}</value>
+		</property>
+		<property name="initialSize">
+			<value>1</value>
+		</property>
+		<property name="maxActive">
+			<value>2</value>
+		</property>
+		<property name="maxIdle">
+			<value>1</value>
+		</property>
+	</bean>
+
+
+	<bean id="dualTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dualDataSource" />
+	</bean>
+
+	<bean id="personaDao"
+		class="com.transacciones.ejemplo_spring.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioPersona"
+		class="com.transacciones.ejemplo_spring.ServicioPersonaImpl">
+		<property name="dao" ref="personaDao" />
+	</bean>
+
+	<bean id="personaDao2"
+		class="com.transacciones.ejemplo_spring2.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioPersona2"
+		class="com.transacciones.ejemplo_spring2.ServicioPersonaImpl">
+		<property name="dao" ref="personaDao2" />
+	</bean>
+	<bean id="personaDao3"
+		class="com.transacciones.ejemplo_spring3.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioPersona3"
+		class="com.transacciones.ejemplo_spring3.ServicioPersonaImpl">
+		<property name="dao" ref="personaDao3" />
+	</bean>
+	<bean id="personaDao4"
+		class="com.transacciones.ejemplo_spring4.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioPersona4"
+		class="com.transacciones.ejemplo_spring4.ServicioPersonaImpl">
+		<property name="dao" ref="personaDao4" />
+	</bean>
+
+	<bean id="personaDao5"
+		class="com.transacciones.ejemplo_spring5.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioPersona5"
+		class="com.transacciones.ejemplo_spring5.ServicioCrearPersonaImpl">
+		<property name="dao" ref="personaDao5" />
+	</bean>
+
+	<bean id="direccionDao"
+		class="com.transacciones.ejemplo_spring6_direccion.DireccionDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioDireccion"
+		class="com.transacciones.ejemplo_spring6_direccion.ServicioDireccionImpl">
+		<property name="dao" ref="direccionDao" />
+	</bean>
+
+	<bean id="personaDao6"
+		class="com.transacciones.ejemplo_spring6_direccion.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioPersona6"
+		class="com.transacciones.ejemplo_spring6_direccion.ServicioPersonaImpl">
+		<property name="dao" ref="personaDao6" />
+		<property name="sd" ref="servicioDireccion" />
+	</bean>
+
+
+	<bean id="direccionDao2"
+		class="com.transacciones.ejemplo_spring7_direccion.DireccionDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioDireccion2"
+		class="com.transacciones.ejemplo_spring7_direccion.ServicioDireccionImpl">
+		<property name="dao" ref="direccionDao2" />
+	</bean>
+
+	<bean id="personaDao7"
+		class="com.transacciones.ejemplo_spring7_direccion.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioPersona7"
+		class="com.transacciones.ejemplo_spring7_direccion.ServicioPersonaImpl">
+		<property name="dao" ref="personaDao7" />
+		<property name="sd" ref="servicioDireccion2" />
+	</bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<bean id="direccionDao3"
+		class="com.transacciones.ejemplo_spring8_direccion.DireccionDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+	<bean id="servicioDireccion3"
+		class="com.transacciones.ejemplo_spring8_direccion.ServicioDireccionImpl">
+		<property name="dao" ref="direccionDao3" />
+	</bean>
+
+	<bean id="personaDao8"
+		class="com.transacciones.ejemplo_spring8_direccion.PersonaDaoImpl">
+		<property name="dataSources" ref="dualDataSource" />
+	</bean>
+
+
+	<bean id="servicioPersona8"
+		class="com.transacciones.ejemplo_spring8_direccion.ServicioEliminarPersonaImpl">
+		<property name="daoPersona" ref="personaDao8" />
+		<property name="daoDireccion" ref="direccionDao3" />
+		<property name="dataSource" ref="dualDataSource" />
+		<property name="transactionManager" ref="dualTransactionManager" />
+	</bean>
+
+
+
+
+
+</beans>
